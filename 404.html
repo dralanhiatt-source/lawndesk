@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var l = window.location;
+var p = l.pathname.replace('/lawndesk', '');
+l.replace(l.protocol+'//'+l.host+'/lawndesk/'+'?p='+p.replace(/&/g,'~and~')+(l.search?'~q~'+l.search.slice(1):'')+l.hash);
+</script>
+</head><body></body>
+</html>
