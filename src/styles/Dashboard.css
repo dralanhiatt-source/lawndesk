@@ -1,0 +1,75 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: rgb(15, 23, 42);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(15, 23, 42);
+  border-bottom: 1px solid rgb(71, 85, 105);
+  padding: 1.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin: 0;
+  color: #22c55e;
+}
+
+.auth-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgb(15, 23, 42);
+}
+
+.auth-card {
+  background-color: rgb(30, 41, 59);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid rgb(71, 85, 105);
+}
+
+.tabs-nav {
+  display: flex;
+  overflow-x: auto;
+  background-color: rgb(17, 24, 39);
+  border-bottom: 1px solid rgb(71, 85, 105);
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  color: rgb(156, 163, 175);
+  transition-property: color, border-color;
+  transition-duration: 150ms;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: 600;
+}
+
+.tab-button:hover {
+  color: white;
+  border-bottom-color: #16a34a;
+}
+
+.tab-button.tab-active {
+  border-bottom-color: #16a34a;
+  color: #16a34a;
+}
+
+.tabs-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
