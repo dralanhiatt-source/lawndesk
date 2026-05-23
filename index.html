@@ -1,13 +1,1097 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LawnDesk by MiaWorks — Lawn Care Business Management</title>
-    <script type="module" crossorigin src="/lawndesk/assets/index-C3F99mzc.js"></script>
-    <link rel="stylesheet" crossorigin href="/lawndesk/assets/index-CZW9Uu9m.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LawnDesk — Mowing by Cody</title>
+<style>
+:root{--bg:#071a07;--s1:#0d2410;--s2:#112b14;--bdr:#1a3d1a;--grn:#16a34a;--grn2:#4ade80;--txt:#f0fdf4;--txt2:#bbf7d0;--txt3:#6b7280;--red:#ef4444;--yel:#eab308;--blu:#3b82f6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;min-height:100vh;}
+#pin{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:999;}
+.p-logo{font-size:52px;}
+.p-title{font-size:26px;font-weight:700;}
+.p-sub{font-size:13px;color:var(--txt3);}
+.p-dots{display:flex;gap:12px;}
+.p-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--grn);transition:.2s;}
+.p-dot.on{background:var(--grn);}
+.p-err{color:var(--red);font-size:13px;height:16px;}
+.p-pad{display:grid;grid-template-columns:repeat(3,68px);gap:10px;}
+.p-key{height:60px;border-radius:10px;border:1px solid var(--bdr);background:var(--s1);color:var(--txt);font-size:20px;font-weight:600;cursor:pointer;transition:.15s;}
+.p-key:hover{background:var(--s2);border-color:var(--grn);}
+#app{display:none;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;background:var(--s1);border-bottom:1px solid var(--bdr);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-size:17px;font-weight:700;color:var(--grn2);}
+.tb-acts{display:flex;gap:8px;}
+.btn{padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;}
+.btn-p{background:var(--grn);color:#fff;}.btn-p:hover{background:#15803d;}
+.btn-s{background:var(--s2);color:var(--txt2);border:1px solid var(--bdr);}.btn-s:hover{border-color:var(--grn);}
+.btn-d{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.btn-d:hover{background:rgba(239,68,68,.25);}
+.btn-sm{padding:4px 9px;font-size:12px;}
+.btn-ico{padding:7px;border-radius:8px;background:transparent;border:1px solid var(--bdr);color:var(--txt3);cursor:pointer;font-size:15px;}
+.btn-ico:hover{border-color:var(--grn);color:var(--grn2);}
+.nav{display:flex;gap:2px;padding:6px 12px;background:var(--s1);border-bottom:1px solid var(--bdr);overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{padding:6px 12px;border-radius:8px;border:none;background:transparent;color:var(--txt3);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s;}
+.ntab.act{background:var(--grn);color:#fff;}
+.ntab:hover:not(.act){background:var(--s2);color:var(--txt2);}
+.content{padding:16px;max-width:1100px;margin:0 auto;}
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:18px;margin-bottom:14px;}
+.ctitle{font-size:14px;font-weight:600;color:var(--txt2);margin-bottom:14px;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.scard{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:14px;text-align:center;}
+.snum{font-size:26px;font-weight:700;color:var(--grn2);}
+.slbl{font-size:11px;color:var(--txt3);margin-top:3px;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:9px 10px;color:var(--txt3);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bdr);}
+td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.bge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.bg-g{background:rgba(74,222,128,.15);color:#4ade80;}
+.bg-y{background:rgba(234,179,8,.15);color:#eab308;}
+.bg-r{background:rgba(239,68,68,.15);color:#ef4444;}
+.bg-b{background:rgba(59,130,246,.15);color:#3b82f6;}
+.bg-gr{background:rgba(107,114,128,.15);color:#9ca3af;}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.fgrp{display:flex;flex-direction:column;gap:5px;}
+.fgrp label{font-size:12px;color:var(--txt3);font-weight:500;}
+input,select,textarea{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);padding:8px 11px;font-size:13px;width:100%;outline:none;transition:border-color .15s;}
+input:focus,select:focus,textarea:focus{border-color:var(--grn);}
+textarea{resize:vertical;min-height:72px;}
+select option{background:var(--s2);}
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.moverlay.open{display:flex;}
+.modal{background:var(--s1);border:1px solid var(--bdr);border-radius:14px;padding:22px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
+.mtitle{font-size:16px;font-weight:700;margin-bottom:18px;}
+.macts{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.empty{text-align:center;padding:40px 16px;color:var(--txt3);}
+.eico{font-size:36px;margin-bottom:10px;}
+.etitle{font-size:15px;font-weight:600;color:var(--txt2);margin-bottom:5px;}
+.shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.stitle{font-size:17px;font-weight:700;}
+.acol{display:flex;gap:5px;flex-wrap:wrap;}
+.alert{padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:13px;}
+.al-g{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;}
+.al-y{background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);color:#eab308;}
+.pbar{height:6px;background:var(--bdr);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;background:var(--grn);border-radius:3px;}
+.cbars{display:flex;align-items:flex-end;gap:5px;height:110px;}
+.cbw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.cb{width:100%;background:var(--grn);border-radius:3px 3px 0 0;min-height:4px;}
+.clbl{font-size:10px;color:var(--txt3);}
+.tog{position:relative;width:38px;height:20px;}
+.tog input{opacity:0;width:0;height:0;}
+.tsl{position:absolute;inset:0;background:var(--bdr);border-radius:10px;cursor:pointer;transition:.3s;}
+.tsl:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;}
+.tog input:checked+.tsl{background:var(--grn);}
+.tog input:checked+.tsl:before{transform:translateX(18px);}
+.togrow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bdr);}
+@media(max-width:600px){.content{padding:10px;}.sgrid{grid-template-columns:repeat(2,1fr);}.fgrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="pin">
+  <div class="p-logo">🌿</div>
+  <div class="p-title">LawnDesk</div>
+  <div class="p-sub">Mowing by Cody</div>
+  <div class="p-dots">
+    <div class="p-dot" id="d0"></div><div class="p-dot" id="d1"></div>
+    <div class="p-dot" id="d2"></div><div class="p-dot" id="d3"></div>
+  </div>
+  <div class="p-err" id="perr"></div>
+  <div class="p-pad">
+    <button class="p-key" onclick="pk('1')">1</button>
+    <button class="p-key" onclick="pk('2')">2</button>
+    <button class="p-key" onclick="pk('3')">3</button>
+    <button class="p-key" onclick="pk('4')">4</button>
+    <button class="p-key" onclick="pk('5')">5</button>
+    <button class="p-key" onclick="pk('6')">6</button>
+    <button class="p-key" onclick="pk('7')">7</button>
+    <button class="p-key" onclick="pk('8')">8</button>
+    <button class="p-key" onclick="pk('9')">9</button>
+    <button class="p-key" style="grid-column:2" onclick="pk('0')">0</button>
+    <button class="p-key" onclick="pb()" style="font-size:13px">⌫</button>
+  </div>
+  <div style="font-size:12px;color:var(--txt3)">Demo PIN: 1234</div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="brand">🌿 LawnDesk</div>
+    <div class="tb-acts">
+      <button class="btn btn-p" onclick="om('jmod');rjm()">+ Quick Job</button>
+      <button class="btn-ico" onclick="lock()" title="Lock">🔒</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="ntab act" onclick="st('dash')">📊 Today</button>
+    <button class="ntab" onclick="st('sched')">🗓 Scheduler</button>
+    <button class="ntab" onclick="st('cust')">👥 Customers</button>
+    <button class="ntab" onclick="st('inv')">💳 Invoicing</button>
+    <button class="ntab" onclick="st('irr')">💧 Irrigation</button>
+    <button class="ntab" onclick="st('exp')">💰 Expenses</button>
+    <button class="ntab" onclick="st('emp')">👷 Employees</button>
+    <button class="ntab" onclick="st('est')">📋 Estimates</button>
+    <button class="ntab" onclick="st('rep')">📈 Reports</button>
+    <button class="ntab" onclick="st('set')">⚙️ Settings</button>
+  </div>
+  <div class="content" id="tc"></div>
+</div>
+
+<!-- JOB MODAL -->
+<div class="moverlay" id="jmod"><div class="modal">
+  <div class="mtitle" id="jmt">Add Job</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Customer</label><select id="jc"></select></div>
+    <div class="fgrp"><label>Service</label><select id="jsvc">
+      <option>Lawn Mowing</option><option>Edging & Trimming</option><option>Fertilization</option>
+      <option>Weed Control</option><option>Leaf Cleanup</option><option>Mulching</option>
+      <option>Aeration</option><option>Irrigation Winterization</option>
+      <option>Irrigation Spring Startup</option><option>Irrigation Repair</option><option>Other</option>
+    </select></div>
+    <div class="fgrp"><label>Date</label><input type="date" id="jd"></div>
+    <div class="fgrp"><label>Price ($)</label><input type="number" id="jp" placeholder="65"></div>
+    <div class="fgrp"><label>Employee</label><select id="jem"></select></div>
+    <div class="fgrp"><label>Status</label><select id="jst">
+      <option value="scheduled">Scheduled</option>
+      <option value="completed">Completed</option>
+      <option value="cancelled">Cancelled</option>
+    </select></div>
+  </div>
+  <div class="fgrp" style="margin-top:12px"><label>Notes</label><textarea id="jn" placeholder="Notes..."></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('jmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svj()">Save Job</button>
+  </div>
+</div></div>
+
+<!-- CUSTOMER MODAL -->
+<div class="moverlay" id="cmod"><div class="modal">
+  <div class="mtitle" id="cmt">Add Customer</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>First Name</label><input id="cfn" placeholder="First"></div>
+    <div class="fgrp"><label>Last Name</label><input id="cln" placeholder="Last"></div>
+    <div class="fgrp"><label>Phone</label><input id="cph" placeholder="479-555-0000"></div>
+    <div class="fgrp"><label>Email</label><input id="cem" placeholder="email@example.com"></div>
+    <div class="fgrp" style="grid-column:1/-1"><label>Address</label><input id="cad" placeholder="123 Main St, Rogers AR"></div>
+    <div class="fgrp"><label>Gate Code</label><input id="cgc" placeholder="Optional"></div>
+    <div class="fgrp"><label>Mower Size</label><select id="cmw">
+      <option>Standard</option><option>Zero-Turn</option><option>Push Only</option><option>Any</option>
+    </select></div>
+  </div>
+  <div class="fgrp" style="margin-top:12px"><label>Notes</label><textarea id="cno" placeholder="Pets, gate info, special instructions..."></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('cmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svc()">Save Customer</button>
+  </div>
+</div></div>
+
+<!-- INVOICE MODAL -->
+<div class="moverlay" id="imod"><div class="modal">
+  <div class="mtitle">New Invoice</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Customer</label><select id="ic"></select></div>
+    <div class="fgrp"><label>Date</label><input type="date" id="id2"></div>
+    <div class="fgrp"><label>Due Date</label><input type="date" id="idd"></div>
+  </div>
+  <div style="margin:14px 0">
+    <div style="font-size:11px;color:var(--txt3);font-weight:600;margin-bottom:7px">LINE ITEMS</div>
+    <div id="ils"></div>
+    <button class="btn btn-s btn-sm" style="margin-top:7px" onclick="ail()">+ Add Line</button>
+  </div>
+  <div style="text-align:right;font-size:14px;color:var(--txt2);margin-bottom:10px">
+    Total: <strong id="itd">$0.00</strong>
+  </div>
+  <div class="fgrp"><label>Notes</label><textarea id="ino" placeholder="Thank you for your business!"></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('imod')">Cancel</button>
+    <button class="btn btn-p" onclick="svi()">Create Invoice</button>
+  </div>
+</div></div>
+
+<!-- EXPENSE MODAL -->
+<div class="moverlay" id="emod"><div class="modal">
+  <div class="mtitle">Add Expense</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Date</label><input type="date" id="ed"></div>
+    <div class="fgrp"><label>Category</label><select id="ec">
+      <option>Fuel</option><option>Vehicle Maintenance</option><option>Equipment</option>
+      <option>Supplies</option><option>Fertilizer/Chemicals</option><option>Insurance</option>
+      <option>Phone/Software</option><option>Meals - Client</option><option>CE/Training</option>
+      <option>Other</option>
+    </select></div>
+    <div class="fgrp"><label>Amount ($)</label><input type="number" id="ea" placeholder="0.00"></div>
+    <div class="fgrp"><label>Vendor</label><input id="ev" placeholder="Vendor name"></div>
+  </div>
+  <div class="fgrp" style="margin-top:12px"><label>Description</label><textarea id="ede" placeholder="Description..."></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('emod')">Cancel</button>
+    <button class="btn btn-p" onclick="sve()">Save Expense</button>
+  </div>
+</div></div>
+
+<!-- MILEAGE MODAL -->
+<div class="moverlay" id="mmod"><div class="modal">
+  <div class="mtitle">Log Mileage Trip</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Date</label><input type="date" id="md"></div>
+    <div class="fgrp"><label>Miles</label><input type="number" id="mm" placeholder="0.0" step="0.1" oninput="umc()"></div>
+    <div class="fgrp" style="grid-column:1/-1"><label>Purpose / Route</label>
+      <input id="mp" placeholder="e.g. Rogers to Bentonville jobs"></div>
+  </div>
+  <div id="mcalc" style="margin-top:10px;padding:10px;background:var(--s2);border-radius:8px;font-size:13px;color:var(--txt2);"></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('mmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svm()">Save Trip</button>
+  </div>
+</div></div>
+
+<!-- EMPLOYEE MODAL -->
+<div class="moverlay" id="emmod"><div class="modal">
+  <div class="mtitle">Add Employee</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>First Name</label><input id="emfn" placeholder="First"></div>
+    <div class="fgrp"><label>Last Name</label><input id="emln" placeholder="Last"></div>
+    <div class="fgrp"><label>Phone</label><input id="emph" placeholder="479-555-0000"></div>
+    <div class="fgrp"><label>Role</label><select id="emrl">
+      <option>Crew Member</option><option>Lead</option><option>Driver</option><option>Irrigation Tech</option>
+    </select></div>
+    <div class="fgrp"><label>Pay Rate ($/hr)</label><input type="number" id="empy" placeholder="15"></div>
+  </div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('emmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svem()">Save Employee</button>
+  </div>
+</div></div>
+
+<!-- ESTIMATE MODAL -->
+<div class="moverlay" id="estmod"><div class="modal">
+  <div class="mtitle">New Estimate</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Customer</label><select id="estc"></select></div>
+    <div class="fgrp"><label>Service</label><select id="ests">
+      <option>Lawn Mowing</option><option>Full Property Cleanup</option>
+      <option>Irrigation Install</option><option>Landscaping</option><option>Other</option>
+    </select></div>
+    <div class="fgrp"><label>Amount ($)</label><input type="number" id="esta" placeholder="0"></div>
+    <div class="fgrp"><label>Valid Until</label><input type="date" id="estv"></div>
+  </div>
+  <div class="fgrp" style="margin-top:12px"><label>Description / Scope</label>
+    <textarea id="estd" placeholder="Describe the work..."></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('estmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svest()">Create Estimate</button>
+  </div>
+</div></div>
+
+<!-- IRRIGATION MODAL -->
+<div class="moverlay" id="irrmod"><div class="modal">
+  <div class="mtitle">Add Irrigation Property</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Customer</label><select id="irrc"></select></div>
+    <div class="fgrp"><label>Zones</label><input type="number" id="irrz" placeholder="6"></div>
+    <div class="fgrp"><label>Controller Brand</label><input id="irrb" placeholder="Rain Bird, Hunter..."></div>
+    <div class="fgrp"><label>Backflow Type</label><select id="irrbf">
+      <option>Double Check</option><option>Pressure Vacuum Breaker</option><option>RPZ</option><option>None</option>
+    </select></div>
+    <div class="fgrp"><label>Last Winterization</label><input type="date" id="irrw"></div>
+    <div class="fgrp"><label>Last Startup</label><input type="date" id="irrs"></div>
+  </div>
+  <div class="fgrp" style="margin-top:12px"><label>Notes / Shut-off Location</label>
+    <textarea id="irrn" placeholder="Shut-off valve location, zone notes..."></textarea></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('irrmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svirr()">Save Property</button>
+  </div>
+</div></div>
+
+<!-- RECURRING MODAL -->
+<div class="moverlay" id="recmod"><div class="modal">
+  <div class="mtitle">Setup Recurring Job</div>
+  <div class="fgrid">
+    <div class="fgrp"><label>Customer</label><select id="recc"></select></div>
+    <div class="fgrp"><label>Service</label><select id="recs">
+      <option>Lawn Mowing</option><option>Edging & Trimming</option><option>Fertilization</option>
+      <option>Weed Control</option><option>Other</option>
+    </select></div>
+    <div class="fgrp"><label>Price ($)</label><input type="number" id="recp" placeholder="65"></div>
+    <div class="fgrp"><label>Start Date</label><input type="date" id="recst"></div>
+    <div class="fgrp"><label>Frequency</label><select id="recf">
+      <option value="7">Weekly</option><option value="14">Every 2 Weeks</option><option value="30">Monthly</option>
+    </select></div>
+    <div class="fgrp"><label>Occurrences</label><input type="number" id="reccnt" placeholder="12" min="1" max="52"></div>
+  </div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('recmod')">Cancel</button>
+    <button class="btn btn-p" onclick="svrec()">Create Jobs</button>
+  </div>
+</div></div>
+
+<!-- CONFIRM MODAL -->
+<div class="moverlay" id="cfmod"><div class="modal" style="max-width:360px">
+  <div class="mtitle" id="cftitle">Confirm</div>
+  <div id="cfbody" style="font-size:14px;color:var(--txt2);margin-bottom:18px;"></div>
+  <div class="macts">
+    <button class="btn btn-s" onclick="cm('cfmod')">Cancel</button>
+    <button class="btn btn-d" id="cfok">Confirm</button>
+  </div>
+</div></div>
+
+<script>
+// ===== DATA =====
+const PIN='1234';
+let pb2='',eid=null;
+const gd=(k,d=[])=>{try{return JSON.parse(localStorage.getItem('ld_'+k))||d;}catch{return d;}};
+const sd=(k,v)=>localStorage.setItem('ld_'+k,JSON.stringify(v));
+const nid=a=>a.length?Math.max(...a.map(x=>x.id))+1:1;
+const td=()=>new Date().toISOString().split('T')[0];
+
+function initDemo(){
+  if(gd('_init',false))return;
+  sd('_init',true);
+  sd('customers',[
+    {id:1,fn:'Mike',ln:'Johnson',ph:'479-555-0101',em:'mike@email.com',ad:'142 Oak Dr, Rogers AR',gc:'',mw:'Zero-Turn',no:'Dog in backyard'},
+    {id:2,fn:'Sarah',ln:'Williams',ph:'479-555-0202',em:'sarah@email.com',ad:'88 Elm St, Bentonville AR',gc:'#4821',mw:'Standard',no:''},
+    {id:3,fn:'Tom',ln:'Davis',ph:'479-555-0303',em:'tom@email.com',ad:'321 Pine Ave, Rogers AR',gc:'',mw:'Any',no:'Side gate only'},
+    {id:4,fn:'Lisa',ln:'Garcia',ph:'479-555-0404',em:'lisa@email.com',ad:'55 Maple Ln, Bella Vista AR',gc:'',mw:'Standard',no:''},
+    {id:5,fn:'Bob',ln:'Martinez',ph:'479-555-0505',em:'bob@email.com',ad:'777 Cedar Rd, Fayetteville AR',gc:'1234',mw:'Push Only',no:'Steep back yard'},
+  ]);
+  const yd=new Date();yd.setDate(yd.getDate()-1);const yd2=yd.toISOString().split('T')[0];
+  const tm=new Date();tm.setDate(tm.getDate()+1);const tm2=tm.toISOString().split('T')[0];
+  sd('jobs',[
+    {id:1,cid:1,sv:'Lawn Mowing',dt:td(),pr:65,em:'Cody',st:'scheduled',no:''},
+    {id:2,cid:2,sv:'Lawn Mowing',dt:td(),pr:75,em:'Cody',st:'scheduled',no:''},
+    {id:3,cid:3,sv:'Edging & Trimming',dt:td(),pr:45,em:'Cody',st:'completed',no:''},
+    {id:4,cid:4,sv:'Lawn Mowing',dt:yd2,pr:65,em:'Cody',st:'completed',no:''},
+    {id:5,cid:5,sv:'Fertilization',dt:yd2,pr:85,em:'Cody',st:'completed',no:''},
+    {id:6,cid:1,sv:'Lawn Mowing',dt:tm2,pr:65,em:'Cody',st:'scheduled',no:''},
+    {id:7,cid:2,sv:'Weed Control',dt:tm2,pr:55,em:'Cody',st:'scheduled',no:''},
+    {id:8,cid:3,sv:'Lawn Mowing',dt:tm2,pr:45,em:'Cody',st:'scheduled',no:''},
+  ]);
+  sd('invoices',[
+    {id:1,cid:1,dt:yd2,due:td(),lines:[{d:'Lawn Mowing',p:65}],tot:65,st:'unpaid',no:''},
+    {id:2,cid:4,dt:yd2,due:td(),lines:[{d:'Lawn Mowing',p:65}],tot:65,st:'paid',no:''},
+    {id:3,cid:5,dt:yd2,due:td(),lines:[{d:'Fertilization',p:85}],tot:85,st:'unpaid',no:''},
+    {id:4,cid:2,dt:yd2,due:td(),lines:[{d:'Lawn Mowing',p:75}],tot:75,st:'paid',no:''},
+  ]);
+  sd('expenses',[
+    {id:1,dt:yd2,cat:'Fuel',am:48,vn:'Murphy USA',de:'Weekly fuel'},
+    {id:2,dt:yd2,cat:'Supplies',am:32,vn:'Home Depot',de:'Trimmer line'},
+    {id:3,dt:yd2,cat:'Fertilizer/Chemicals',am:95,vn:'SiteOne',de:'Fall fertilizer'},
+    {id:4,dt:td(),cat:'Fuel',am:52,vn:'Murphy USA',de:'Weekly fuel'},
+  ]);
+  sd('mileage',[
+    {id:1,dt:yd2,mi:38,pu:'Bella Vista to Rogers route'},
+    {id:2,dt:td(),mi:45,pu:'Rogers to Fayetteville route'},
+  ]);
+  sd('employees',[{id:1,fn:'Cody',ln:'Hiatt',ph:'479-228-6770',rl:'Lead',py:20,ac:true}]);
+  sd('estimates',[{id:1,cid:3,sv:'Full Property Cleanup',am:220,vl:tm2,de:'Leaf cleanup, edge beds, haul debris',st:'pending'}]);
+  sd('irrigation',[{id:1,cid:2,zn:6,br:'Rain Bird',bf:'Pressure Vacuum Breaker',lw:yd2,ls:'',wz:true,no:'Shut-off in garage left side'}]);
+  sd('settings',{bus:'Mowing by Cody',ph:'479-228-6770',em:'hiatt.codya@gmail.com',ad:'Bella Vista AR',tx:0,nt:true});
+}
+
+// ===== PIN =====
+function pk(k){if(pb2.length>=4)return;pb2+=k;upd();if(pb2.length===4)setTimeout(chk,120);}
+function pb(){pb2=pb2.slice(0,-1);upd();}
+function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).classList.toggle('on',i<pb2.length);}
+function chk(){
+  if(pb2===PIN){
+    document.getElementById('pin').style.display='none';
+    document.getElementById('app').style.display='block';
+    initDemo();st('dash');
+  }else{
+    document.getElementById('perr').textContent='Incorrect PIN';
+    pb2='';upd();setTimeout(()=>document.getElementById('perr').textContent='',2000);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('pin').style.display!=='none'){
+    if(e.key>='0'&&e.key<='9')pk(e.key);
+    if(e.key==='Backspace')pb();
+  }
+});
+function lock(){pb2='';upd();document.getElementById('pin').style.display='flex';document.getElementById('app').style.display='none';}
+
+// ===== TABS =====
+const TABS=['dash','sched','cust','inv','irr','exp','emp','est','rep','set'];
+const RENDERS={dash:rDash,sched:rSched,cust:rCust,inv:rInv,irr:rIrr,exp:rExp,emp:rEmp,est:rEst,rep:rRep,set:rSet};
+function st(tab){
+  document.querySelectorAll('.ntab').forEach((t,i)=>t.classList.toggle('act',TABS[i]===tab));
+  document.getElementById('tc').innerHTML='';
+  RENDERS[tab]();
+}
+
+// ===== HELPERS =====
+const om=id=>document.getElementById(id).classList.add('open');
+const cm=id=>document.getElementById(id).classList.remove('open');
+const tdv=id=>{document.getElementById(id).value=td();};
+const sfx=v=>`<span class="bge ${({scheduled:'bg-b',completed:'bg-g',cancelled:'bg-r',unpaid:'bg-y',paid:'bg-g',pending:'bg-y',accepted:'bg-g',declined:'bg-r',overdue:'bg-r'})[v]||'bg-gr'}">${v}</span>`;
+function pcs(id){
+  const s=document.getElementById(id);if(!s)return;
+  s.innerHTML=gd('customers').map(c=>`<option value="${c.id}">${c.fn} ${c.ln}</option>`).join('');
+}
+function pes(id){
+  const s=document.getElementById(id);if(!s)return;
+  s.innerHTML='<option value="">Unassigned</option>'+gd('employees').filter(e=>e.ac).map(e=>`<option value="${e.fn}">${e.fn} ${e.ln}</option>`).join('');
+}
+function sal(msg,t='g'){
+  const a=document.createElement('div');a.className=`alert al-${t}`;a.textContent=msg;
+  document.getElementById('tc').prepend(a);setTimeout(()=>a.remove(),3000);
+}
+function cf2(msg,cb){
+  document.getElementById('cftitle').textContent='Confirm';
+  document.getElementById('cfbody').textContent=msg;
+  document.getElementById('cfok').onclick=()=>{cm('cfmod');cb();};
+  om('cfmod');
+}
+function dlCSV(rows,fn){
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=fn;a.click();
+}
+
+// ===== DASHBOARD =====
+function rDash(){
+  const jobs=gd('jobs'),invs=gd('invoices'),custs=gd('customers');
+  const tj=jobs.filter(j=>j.dt===td());
+  const tr=jobs.filter(j=>j.dt===td()&&j.st==='completed').reduce((s,j)=>s+Number(j.pr),0);
+  const up=invs.filter(i=>i.st==='unpaid').reduce((s,i)=>s+Number(i.tot),0);
+  const exp=gd('expenses').filter(e=>e.dt.startsWith(td().slice(0,7))).reduce((s,e)=>s+Number(e.am),0);
+  document.getElementById('tc').innerHTML=`
+    <div class="sgrid">
+      <div class="scard"><div class="snum">${tj.length}</div><div class="slbl">Jobs Today</div></div>
+      <div class="scard"><div class="snum">$${tr}</div><div class="slbl">Revenue Today</div></div>
+      <div class="scard"><div class="snum">${custs.length}</div><div class="slbl">Customers</div></div>
+      <div class="scard"><div class="snum" style="color:var(--yel)">$${up.toFixed(0)}</div><div class="slbl">Outstanding</div></div>
+      <div class="scard"><div class="snum" style="color:var(--red)">$${exp.toFixed(0)}</div><div class="slbl">Month Expenses</div></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">📅 Today's Schedule — ${td()}</div>
+      ${!tj.length?'<div class="empty"><div class="eico">☀️</div><div class="etitle">No jobs today</div><p>Tap + Quick Job to add one</p></div>':
+      `<div class="tw"><table><thead><tr><th>Customer</th><th>Service</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+      ${tj.map(j=>{const c=gd('customers').find(x=>x.id===j.cid)||{fn:'?',ln:''};return`<tr>
+        <td>${c.fn} ${c.ln}</td><td>${j.sv}</td><td>$${j.pr}</td><td>${sfx(j.st)}</td>
+        <td class="acol">${j.st==='scheduled'?`<button class="btn btn-p btn-sm" onclick="cmpj(${j.id})">✓ Done</button>`:''}
+        <button class="btn btn-s btn-sm" onclick="ejob(${j.id})">Edit</button></td></tr>`;}).join('')}
+      </tbody></table></div>`}
+    </div>
+    <div class="card">
+      <div class="ctitle">⚡ Outstanding Invoices</div>
+      ${!invs.filter(i=>i.st==='unpaid').length?'<p style="color:var(--txt3);font-size:13px">All invoices paid! 🎉</p>':
+      invs.filter(i=>i.st==='unpaid').map(inv=>{
+        const c=gd('customers').find(x=>x.id===inv.cid)||{fn:'?',ln:''};
+        return`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--bdr)">
+          <div><strong>${c.fn} ${c.ln}</strong><div style="font-size:11px;color:var(--txt3)">Due: ${inv.due}</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <strong style="color:var(--yel)">$${inv.tot}</strong>
+            <button class="btn btn-p btn-sm" onclick="mpd(${inv.id})">Mark Paid</button>
+          </div></div>`;}).join('')}
+    </div>`;
+}
+
+// ===== SCHEDULER =====
+function rSched(){
+  const c=document.getElementById('tc');
+  let sf='',ss='all';
+  function rdr(){
+    const jobs=gd('jobs');
+    const f=jobs.filter(j=>{
+      const cu=gd('customers').find(x=>x.id===j.cid)||{fn:'',ln:''};
+      return(!sf||(cu.fn+' '+cu.ln+j.sv).toLowerCase().includes(sf.toLowerCase()))&&(ss==='all'||j.st===ss);
+    }).sort((a,b)=>b.dt.localeCompare(a.dt));
+    c.innerHTML=`<div class="shdr"><div class="stitle">Scheduler</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <select class="btn btn-s" style="padding:7px 10px;font-size:13px" id="ssf" onchange="window._ss=this.value;window._rds()">
+          <option value="all">All Status</option><option value="scheduled">Scheduled</option>
+          <option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+        </select>
+        <input placeholder="Search..." style="width:160px" id="ssi" oninput="window._sf=this.value;window._rds()">
+        <button class="btn btn-s" onclick="om('recmod');pcs('recc');tdv('recst');document.getElementById('reccnt').value=12">↻ Recurring</button>
+        <button class="btn btn-p" onclick="om('jmod');rjm()">+ Add Job</button>
+      </div></div>
+      ${!f.length?'<div class="empty"><div class="eico">🗓️</div><div class="etitle">No jobs found</div></div>':
+      `<div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+        <th>Date</th><th>Customer</th><th>Service</th><th>Price</th><th>Employee</th><th>Status</th><th>Actions</th>
+      </tr></thead><tbody>
+      ${f.map(j=>{const cu=gd('customers').find(x=>x.id===j.cid)||{fn:'?',ln:''};return`<tr>
+        <td>${j.dt}</td><td>${cu.fn} ${cu.ln}</td><td>${j.sv}</td><td>$${j.pr}</td>
+        <td>${j.em||'—'}</td><td>${sfx(j.st)}</td>
+        <td class="acol">
+          ${j.st==='scheduled'?`<button class="btn btn-p btn-sm" onclick="cmpj(${j.id})">✓</button>`:''}
+          <button class="btn btn-s btn-sm" onclick="ejob(${j.id})">Edit</button>
+          <button class="btn btn-d btn-sm" onclick="deljob(${j.id})">Del</button>
+        </td></tr>`;}).join('')}
+      </tbody></table></div></div>`}`;
+    document.getElementById('ssf').value=ss;
+    document.getElementById('ssi').value=sf;
+  }
+  window._sf=sf;window._ss=ss;
+  window._rds=()=>{sf=window._sf;ss=window._ss;rdr();};
+  rdr();
+}
+
+// ===== CUSTOMERS =====
+function rCust(){
+  const c=document.getElementById('tc');
+  let sf='';
+  function rdr(){
+    const custs=gd('customers').filter(cu=>!sf||(cu.fn+' '+cu.ln+cu.ph+cu.ad).toLowerCase().includes(sf.toLowerCase()));
+    c.innerHTML=`<div class="shdr"><div class="stitle">Customers (${gd('customers').length})</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <input placeholder="Search..." style="width:160px" id="csi" oninput="window._csf=this.value;window._rdc()">
+        <button class="btn btn-s btn-sm" onclick="impCSV()">📥 Import</button>
+        <button class="btn btn-s btn-sm" onclick="expCSV()">📤 Export</button>
+        <button class="btn btn-p" onclick="om('cmod');rcm()">+ Add Customer</button>
+      </div></div>
+      ${!custs.length?'<div class="empty"><div class="eico">👥</div><div class="etitle">No customers yet</div></div>':
+      `<div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+        <th>Name</th><th>Phone</th><th>Address</th><th>Notes</th><th>Actions</th>
+      </tr></thead><tbody>
+      ${custs.map(cu=>`<tr>
+        <td><strong>${cu.fn} ${cu.ln}</strong></td><td>${cu.ph}</td>
+        <td style="font-size:12px">${cu.ad||'—'}</td>
+        <td style="font-size:12px;color:var(--txt3)">${cu.no||'—'}</td>
+        <td class="acol">
+          <button class="btn btn-p btn-sm" onclick="sjfc(${cu.id})">+ Job</button>
+          <button class="btn btn-s btn-sm" onclick="ecust(${cu.id})">Edit</button>
+          <button class="btn btn-d btn-sm" onclick="delcust(${cu.id})">Del</button>
+        </td></tr>`).join('')}
+      </tbody></table></div></div>`}`;
+    if(document.getElementById('csi'))document.getElementById('csi').value=sf;
+  }
+  window._csf=sf;window._rdc=()=>{sf=window._csf;rdr();};rdr();
+}
+
+// ===== INVOICING =====
+function rInv(){
+  const invs=gd('invoices');
+  const tot=invs.reduce((s,i)=>s+Number(i.tot),0);
+  const pd=invs.filter(i=>i.st==='paid').reduce((s,i)=>s+Number(i.tot),0);
+  const up=invs.filter(i=>i.st==='unpaid').reduce((s,i)=>s+Number(i.tot),0);
+  document.getElementById('tc').innerHTML=`
+    <div class="sgrid"><div class="scard"><div class="snum">$${tot.toFixed(0)}</div><div class="slbl">Total Invoiced</div></div>
+      <div class="scard"><div class="snum" style="color:var(--grn2)">$${pd.toFixed(0)}</div><div class="slbl">Paid</div></div>
+      <div class="scard"><div class="snum" style="color:var(--yel)">$${up.toFixed(0)}</div><div class="slbl">Outstanding</div></div></div>
+    <div class="shdr"><div class="stitle">Invoices</div>
+      <button class="btn btn-p" onclick="oinvm()">+ New Invoice</button></div>
+    ${!invs.length?'<div class="empty"><div class="eico">💳</div><div class="etitle">No invoices yet</div></div>':
+    `<div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+      <th>#</th><th>Customer</th><th>Date</th><th>Due</th><th>Total</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody>
+    ${invs.sort((a,b)=>b.dt.localeCompare(a.dt)).map(inv=>{
+      const c=gd('customers').find(x=>x.id===inv.cid)||{fn:'?',ln:''};
+      return`<tr><td>#${inv.id}</td><td>${c.fn} ${c.ln}</td><td>${inv.dt}</td><td>${inv.due}</td>
+        <td><strong>$${inv.tot}</strong></td><td>${sfx(inv.st)}</td>
+        <td class="acol">
+          ${inv.st==='unpaid'?`<button class="btn btn-p btn-sm" onclick="mpd(${inv.id})">Mark Paid</button>`:''}
+          <button class="btn btn-s btn-sm" onclick="vinv(${inv.id})">View</button>
+          <button class="btn btn-d btn-sm" onclick="delinv(${inv.id})">Del</button>
+        </td></tr>`;}).join('')}
+    </tbody></table></div></div>`}`;
+}
+
+// ===== IRRIGATION =====
+function rIrr(){
+  const props=gd('irrigation');
+  document.getElementById('tc').innerHTML=`
+    <div class="shdr"><div class="stitle">💧 Irrigation Properties (${props.length})</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-s" onclick="wcamp()">❄️ Winterization Campaign</button>
+        <button class="btn btn-p" onclick="om('irrmod');pcs('irrc')">+ Add Property</button>
+      </div></div>
+    ${!props.length?'<div class="empty"><div class="eico">💧</div><div class="etitle">No irrigation properties</div></div>':
+    props.map(p=>{
+      const c=gd('customers').find(x=>x.id===p.cid)||{fn:'?',ln:'',ad:''};
+      return`<div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+          <div><div style="font-size:15px;font-weight:700">${c.fn} ${c.ln}</div>
+            <div style="font-size:12px;color:var(--txt3)">${c.ad}</div></div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            ${p.wz?'<span class="bge bg-b">❄️ Winterized</span>':'<span class="bge bg-g">🌱 Active</span>'}
+            <button class="btn btn-s btn-sm" onclick="twz(${p.id})">${p.wz?'Mark Active':'Winterize'}</button>
+            <button class="btn btn-p btn-sm" onclick="sijob(${p.id})">+ Job</button>
+            <button class="btn btn-d btn-sm" onclick="delirr(${p.id})">Del</button>
+          </div></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px">
+          <div><div style="font-size:10px;color:var(--txt3)">ZONES</div><div style="font-weight:600">${p.zn}</div></div>
+          <div><div style="font-size:10px;color:var(--txt3)">CONTROLLER</div><div style="font-weight:600">${p.br||'—'}</div></div>
+          <div><div style="font-size:10px;color:var(--txt3)">BACKFLOW</div><div style="font-weight:600">${p.bf||'—'}</div></div>
+          <div><div style="font-size:10px;color:var(--txt3)">LAST WINTERIZED</div><div style="font-weight:600">${p.lw||'Never'}</div></div>
+        </div>
+        ${p.no?`<div style="margin-top:10px;padding:8px;background:var(--s2);border-radius:7px;font-size:12px;color:var(--txt2)">${p.no}</div>`:''}
+      </div>`;}).join('')}`;
+}
+
+// ===== EXPENSES =====
+function rExp(){
+  const exps=gd('expenses'),mil=gd('mileage');
+  const te=exps.reduce((s,e)=>s+Number(e.am),0);
+  const tm=mil.reduce((s,m)=>s+Number(m.mi),0);
+  document.getElementById('tc').innerHTML=`
+    <div class="sgrid">
+      <div class="scard"><div class="snum" style="color:var(--red)">$${te.toFixed(0)}</div><div class="slbl">Total Expenses</div></div>
+      <div class="scard"><div class="snum">${tm.toFixed(0)}</div><div class="slbl">Total Miles</div></div>
+      <div class="scard"><div class="snum" style="color:var(--grn2)">$${(tm*0.70).toFixed(0)}</div><div class="slbl">Mileage Deduction</div></div>
+    </div>
+    <div class="shdr"><div class="stitle">Expenses</div>
+      <button class="btn btn-p" onclick="om('emod');tdv('ed')">+ Add Expense</button></div>
+    <div class="card" style="padding:0;margin-bottom:14px"><div class="tw"><table><thead><tr>
+      <th>Date</th><th>Category</th><th>Vendor</th><th>Amount</th><th>Description</th><th>Actions</th>
+    </tr></thead><tbody>
+    ${exps.sort((a,b)=>b.dt.localeCompare(a.dt)).map(e=>`<tr>
+      <td>${e.dt}</td><td>${e.cat}</td><td>${e.vn||'—'}</td>
+      <td style="color:var(--red)">$${Number(e.am).toFixed(2)}</td>
+      <td style="font-size:12px;color:var(--txt3)">${e.de||'—'}</td>
+      <td><button class="btn btn-d btn-sm" onclick="dele(${e.id})">Del</button></td>
+    </tr>`).join('')}
+    </tbody></table></div></div>
+    <div class="shdr"><div class="stitle">Mileage Log (IRS $0.70/mi)</div>
+      <button class="btn btn-p" onclick="om('mmod');tdv('md')">+ Log Trip</button></div>
+    <div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+      <th>Date</th><th>Miles</th><th>Deduction</th><th>Purpose</th><th>Actions</th>
+    </tr></thead><tbody>
+    ${mil.sort((a,b)=>b.dt.localeCompare(a.dt)).map(m=>`<tr>
+      <td>${m.dt}</td><td>${m.mi}</td>
+      <td style="color:var(--grn2)">$${(Number(m.mi)*0.70).toFixed(2)}</td>
+      <td style="font-size:12px">${m.pu||'—'}</td>
+      <td><button class="btn btn-d btn-sm" onclick="delm(${m.id})">Del</button></td>
+    </tr>`).join('')}
+    </tbody></table></div></div>`;
+}
+
+// ===== EMPLOYEES =====
+function rEmp(){
+  const emps=gd('employees');
+  document.getElementById('tc').innerHTML=`
+    <div class="shdr"><div class="stitle">Employees (${emps.length})</div>
+      <button class="btn btn-p" onclick="om('emmod');reemm()">+ Add Employee</button></div>
+    ${!emps.length?'<div class="empty"><div class="eico">👷</div><div class="etitle">No employees yet</div></div>':
+    `<div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+      <th>Name</th><th>Phone</th><th>Role</th><th>Pay</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody>
+    ${emps.map(em=>`<tr>
+      <td><strong>${em.fn} ${em.ln}</strong></td><td>${em.ph}</td><td>${em.rl}</td>
+      <td>$${em.py}/hr</td><td>${em.ac?'<span class="bge bg-g">Active</span>':'<span class="bge bg-gr">Inactive</span>'}</td>
+      <td class="acol">
+        <button class="btn btn-s btn-sm" onclick="temp(${em.id})">${em.ac?'Deactivate':'Activate'}</button>
+        <button class="btn btn-d btn-sm" onclick="delemp(${em.id})">Del</button>
+      </td></tr>`).join('')}
+    </tbody></table></div></div>`}`;
+}
+
+// ===== ESTIMATES =====
+function rEst(){
+  const ests=gd('estimates');
+  document.getElementById('tc').innerHTML=`
+    <div class="shdr"><div class="stitle">Estimates</div>
+      <button class="btn btn-p" onclick="om('estmod');pcs('estc');const dv=new Date();dv.setDate(dv.getDate()+30);document.getElementById('estv').value=dv.toISOString().split('T')[0]">+ New Estimate</button></div>
+    ${!ests.length?'<div class="empty"><div class="eico">📋</div><div class="etitle">No estimates yet</div></div>':
+    `<div class="card" style="padding:0"><div class="tw"><table><thead><tr>
+      <th>Customer</th><th>Service</th><th>Amount</th><th>Valid Until</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody>
+    ${ests.map(est=>{
+      const c=gd('customers').find(x=>x.id===est.cid)||{fn:'?',ln:''};
+      return`<tr><td>${c.fn} ${c.ln}</td><td>${est.sv}</td>
+        <td><strong>$${est.am}</strong></td><td>${est.vl}</td><td>${sfx(est.st)}</td>
+        <td class="acol">
+          ${est.st==='pending'?`<button class="btn btn-p btn-sm" onclick="acest(${est.id})">Accept</button>
+            <button class="btn btn-d btn-sm" onclick="dcest(${est.id})">Decline</button>`:''}
+          ${est.st==='accepted'?`<button class="btn btn-s btn-sm" onclick="c2job(${est.id})">→ Job</button>`:''}
+          <button class="btn btn-d btn-sm" onclick="delest(${est.id})">Del</button>
+        </td></tr>`;}).join('')}
+    </tbody></table></div></div>`}`;
+}
+
+// ===== REPORTS =====
+function rRep(){
+  const jobs=gd('jobs'),custs=gd('customers'),exps=gd('expenses'),mil=gd('mileage');
+  const months=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date();d.setMonth(d.getMonth()-i);
+    const key=d.toISOString().slice(0,7);
+    const rev=jobs.filter(j=>j.dt.startsWith(key)&&j.st==='completed').reduce((s,j)=>s+Number(j.pr),0);
+    months.push({lb:d.toLocaleString('default',{month:'short'}),rev});
+  }
+  const mx=Math.max(...months.map(m=>m.rev),1);
+  const tr=jobs.filter(j=>j.st==='completed').reduce((s,j)=>s+Number(j.pr),0);
+  const te=exps.reduce((s,e)=>s+Number(e.am),0);
+  const tm=mil.reduce((s,m)=>s+Number(m.mi),0);
+  const np=tr-te-(tm*0.70);
+  const top=custs.map(c=>({...c,rev:jobs.filter(j=>j.cid===c.id&&j.st==='completed').reduce((s,j)=>s+Number(j.pr),0)})).filter(c=>c.rev>0).sort((a,b)=>b.rev-a.rev).slice(0,5);
+  document.getElementById('tc').innerHTML=`
+    <div class="shdr"><div class="stitle">Reports & Analytics</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-s" onclick="exprep()">📤 CSV</button>
+        <button class="btn btn-p" onclick="prtrep()">🖨️ Print</button>
+      </div></div>
+    <div class="sgrid">
+      <div class="scard"><div class="snum" style="color:var(--grn2)">$${tr.toFixed(0)}</div><div class="slbl">Total Revenue</div></div>
+      <div class="scard"><div class="snum" style="color:var(--red)">$${te.toFixed(0)}</div><div class="slbl">Total Expenses</div></div>
+      <div class="scard"><div class="snum" style="color:${np>=0?'var(--grn2)':'var(--red)'}">$${np.toFixed(0)}</div><div class="slbl">Net Profit</div></div>
+      <div class="scard"><div class="snum">${jobs.filter(j=>j.st==='completed').length}</div><div class="slbl">Jobs Done</div></div>
+    </div>
+    <div class="card"><div class="ctitle">📊 Monthly Revenue (last 6 months)</div>
+      <div class="cbars">
+        ${months.map(m=>`<div class="cbw">
+          <div class="cb" style="height:${mx>0?Math.max((m.rev/mx)*100,4):4}px" title="$${m.rev}"></div>
+          <div class="clbl">${m.lb}</div>
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--txt3)">
+        ${months.map(m=>`<div>$${m.rev}</div>`).join('')}
+      </div>
+    </div>
+    ${top.length?`<div class="card"><div class="ctitle">⭐ Top Customers</div>
+      ${top.map(c=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr)">
+        <div style="flex:1"><strong>${c.fn} ${c.ln}</strong></div>
+        <div style="width:180px"><div class="pbar"><div class="pfill" style="width:${(c.rev/top[0].rev)*100}%"></div></div></div>
+        <div style="color:var(--grn2);font-weight:600;min-width:55px;text-align:right">$${c.rev}</div>
+      </div>`).join('')}
+    </div>`:''}
+    <div class="card"><div class="ctitle">💰 P&L Summary</div>
+      <div style="display:grid;gap:7px;font-size:14px">
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr)"><span>Gross Revenue</span><strong style="color:var(--grn2)">$${tr.toFixed(2)}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr)"><span>Business Expenses</span><strong style="color:var(--red)">-$${te.toFixed(2)}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bdr)"><span>Mileage Deduction (${tm} mi × $0.70)</span><strong style="color:var(--red)">-$${(tm*0.70).toFixed(2)}</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 0;font-size:15px"><strong>Net Profit</strong><strong style="color:${np>=0?'var(--grn2)':'var(--red)'}">$${np.toFixed(2)}</strong></div>
+      </div>
+    </div>`;
+}
+
+// ===== SETTINGS =====
+function rSet(){
+  const s=gd('settings',{bus:'Mowing by Cody',ph:'479-228-6770',em:'hiatt.codya@gmail.com',ad:'Bella Vista AR',tx:0,nt:true});
+  document.getElementById('tc').innerHTML=`
+    <div class="stitle" style="margin-bottom:18px">Settings</div>
+    <div class="card"><div class="ctitle">🏢 Business Info</div>
+      <div class="fgrid">
+        <div class="fgrp"><label>Business Name</label><input id="sb" value="${s.bus||''}"></div>
+        <div class="fgrp"><label>Phone</label><input id="sp" value="${s.ph||''}"></div>
+        <div class="fgrp"><label>Email</label><input id="se" value="${s.em||''}"></div>
+        <div class="fgrp"><label>Address</label><input id="sa" value="${s.ad||''}"></div>
+        <div class="fgrp"><label>Tax Rate (%)</label><input type="number" id="st2" value="${s.tx||0}" step="0.1"></div>
+      </div>
+      <button class="btn btn-p" style="margin-top:14px" onclick="svset()">Save Settings</button>
+    </div>
+    <div class="card"><div class="ctitle">📱 Notifications</div>
+      <div class="togrow"><span>Job reminders</span>
+        <label class="tog"><input type="checkbox" ${s.nt?'checked':''} onchange="tgnt(this)"><span class="tsl"></span></label>
+      </div>
+    </div>
+    <div class="card"><div class="ctitle">🗃️ Data Management</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-s" onclick="expall()">📤 Export All Data (JSON)</button>
+        <button class="btn btn-d" onclick="cf2('Clear all demo data? Cannot be undone.',()=>{['customers','jobs','invoices','expenses','mileage','employees','estimates','irrigation','settings','_init'].forEach(k=>localStorage.removeItem('ld_'+k));lock();})">🗑️ Clear Demo Data</button>
+      </div>
+    </div>
+    <div class="card"><div class="ctitle">🌿 About LawnDesk</div>
+      <div style="font-size:13px;color:var(--txt3);line-height:1.9">
+        <div>LawnDesk by MiaWorks — v1.0 May 2026</div>
+        <div>Demo: Mowing by Cody | PIN: 1234</div>
+        <div><a href="https://miaworks.pro" style="color:var(--grn2)" target="_blank">miaworks.pro</a></div>
+      </div>
+    </div>`;
+}
+
+// ===== JOB FUNCTIONS =====
+function rjm(){
+  eid=null;document.getElementById('jmt').textContent='Add Job';
+  pcs('jc');pes('jem');tdv('jd');
+  ['jp','jn'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('jst').value='scheduled';
+}
+function ejob(id){
+  const j=gd('jobs').find(x=>x.id===id);if(!j)return;
+  eid=id;document.getElementById('jmt').textContent='Edit Job';
+  pcs('jc');pes('jem');
+  document.getElementById('jc').value=j.cid;
+  document.getElementById('jsvc').value=j.sv;
+  document.getElementById('jd').value=j.dt;
+  document.getElementById('jp').value=j.pr;
+  document.getElementById('jem').value=j.em||'';
+  document.getElementById('jst').value=j.st;
+  document.getElementById('jn').value=j.no||'';
+  om('jmod');
+}
+function svj(){
+  const cid=parseInt(document.getElementById('jc').value);
+  const dt=document.getElementById('jd').value;
+  if(!cid||!dt){alert('Select customer and date');return;}
+  const jobs=gd('jobs');
+  const j={cid,sv:document.getElementById('jsvc').value,dt,pr:parseFloat(document.getElementById('jp').value)||0,
+    em:document.getElementById('jem').value,st:document.getElementById('jst').value,
+    no:document.getElementById('jn').value};
+  if(eid){const i=jobs.findIndex(x=>x.id===eid);jobs[i]={...jobs[i],...j};}
+  else{jobs.push({id:nid(jobs),...j});}
+  sd('jobs',jobs);cm('jmod');st('sched');
+}
+function cmpj(id){
+  const jobs=gd('jobs');const i=jobs.findIndex(j=>j.id===id);
+  if(i>=0){jobs[i].st='completed';sd('jobs',jobs);}
+  sal('Job marked complete!');
+  const at=document.querySelector('.ntab.act');
+  st(at&&at.textContent.includes('Today')?'dash':'sched');
+}
+function deljob(id){cf2('Delete this job?',()=>{sd('jobs',gd('jobs').filter(j=>j.id!==id));st('sched');});}
+function sjfc(cid){rjm();document.getElementById('jc').value=cid;om('jmod');}
+
+// ===== RECURRING =====
+function svrec(){
+  const cid=parseInt(document.getElementById('recc').value);
+  const pr=parseFloat(document.getElementById('recp').value)||65;
+  const st2=document.getElementById('recst').value;
+  const days=parseInt(document.getElementById('recf').value)||7;
+  const cnt=parseInt(document.getElementById('reccnt').value)||12;
+  const sv=document.getElementById('recs').value;
+  if(!cid||!st2){alert('Fill in customer and start date');return;}
+  const jobs=gd('jobs');
+  for(let i=0;i<cnt;i++){
+    const d=new Date(st2);d.setDate(d.getDate()+(i*days));
+    jobs.push({id:nid(jobs),cid,sv,dt:d.toISOString().split('T')[0],pr,em:'Cody',st:'scheduled',no:'Recurring'});
+  }
+  sd('jobs',jobs);cm('recmod');sal(`Created ${cnt} recurring jobs!`);st('sched');
+}
+
+// ===== CUSTOMER FUNCTIONS =====
+function rcm(){eid=null;document.getElementById('cmt').textContent='Add Customer';['cfn','cln','cph','cem','cad','cgc','cno'].forEach(id=>document.getElementById(id).value='');}
+function ecust(id){
+  const c=gd('customers').find(x=>x.id===id);if(!c)return;
+  eid=id;document.getElementById('cmt').textContent='Edit Customer';
+  document.getElementById('cfn').value=c.fn;document.getElementById('cln').value=c.ln;
+  document.getElementById('cph').value=c.ph;document.getElementById('cem').value=c.em||'';
+  document.getElementById('cad').value=c.ad||'';document.getElementById('cgc').value=c.gc||'';
+  document.getElementById('cno').value=c.no||'';om('cmod');
+}
+function svc(){
+  const fn=document.getElementById('cfn').value.trim(),ln=document.getElementById('cln').value.trim();
+  if(!fn||!ln){alert('First and last name required');return;}
+  const custs=gd('customers');
+  const c={fn,ln,ph:document.getElementById('cph').value,em:document.getElementById('cem').value,
+    ad:document.getElementById('cad').value,gc:document.getElementById('cgc').value,
+    mw:document.getElementById('cmw').value,no:document.getElementById('cno').value};
+  if(eid){const i=custs.findIndex(x=>x.id===eid);custs[i]={...custs[i],...c};}
+  else{custs.push({id:nid(custs),...c});}
+  sd('customers',custs);cm('cmod');st('cust');
+}
+function delcust(id){cf2('Delete customer? Jobs will remain.',()=>{sd('customers',gd('customers').filter(c=>c.id!==id));st('cust');});}
+function expCSV(){dlCSV([['First','Last','Phone','Email','Address','Notes'],...gd('customers').map(c=>[c.fn,c.ln,c.ph,c.em||'',c.ad||'',c.no||''])],'customers.csv');}
+function impCSV(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.csv';
+  inp.onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    const r=new FileReader();r.onload=ev=>{
+      const lines=ev.target.result.split('\n').slice(1);
+      const custs=gd('customers');let added=0;
+      lines.forEach(line=>{
+        const[fn,ln,ph,em,ad,no]=line.split(',').map(s=>s.trim().replace(/^"|"$/g,''));
+        if(fn&&ln){custs.push({id:nid(custs),fn,ln,ph:ph||'',em:em||'',ad:ad||'',gc:'',mw:'Any',no:no||''});added++;}
+      });
+      sd('customers',custs);sal(`Imported ${added} customers!`);st('cust');
+    };r.readAsText(f);
+  };inp.click();
+}
+
+// ===== INVOICE FUNCTIONS =====
+function oinvm(){
+  pcs('ic');tdv('id2');
+  const due=new Date();due.setDate(due.getDate()+14);
+  document.getElementById('idd').value=due.toISOString().split('T')[0];
+  document.getElementById('ino').value='';document.getElementById('ils').innerHTML='';
+  document.getElementById('itd').textContent='$0.00';ail();om('imod');
+}
+function ail(){
+  const c=document.getElementById('ils');const id2='il'+Date.now();
+  const d=document.createElement('div');d.id=id2;
+  d.style.cssText='display:grid;grid-template-columns:1fr 80px auto;gap:7px;margin-bottom:7px;align-items:center';
+  d.innerHTML=`<input placeholder="Description" oninput="citot()">
+    <input type="number" placeholder="$" oninput="citot()">
+    <button class="btn btn-d btn-sm" onclick="this.parentElement.remove();citot()">✕</button>`;
+  c.appendChild(d);
+}
+function citot(){
+  let t=0;document.querySelectorAll('#ils>div').forEach(row=>{
+    const ins=row.querySelectorAll('input');if(ins[1])t+=parseFloat(ins[1].value)||0;
+  });document.getElementById('itd').textContent='$'+t.toFixed(2);
+}
+function svi(){
+  const cid=parseInt(document.getElementById('ic').value);
+  if(!cid){alert('Select a customer');return;}
+  const lines=[];
+  document.querySelectorAll('#ils>div').forEach(row=>{
+    const ins=row.querySelectorAll('input');
+    const d=ins[0]?.value.trim(),p=parseFloat(ins[1]?.value)||0;
+    if(d)lines.push({d,p});
+  });
+  if(!lines.length){alert('Add at least one line item');return;}
+  const tot=lines.reduce((s,l)=>s+l.p,0);
+  const invs=gd('invoices');
+  invs.push({id:nid(invs),cid,dt:document.getElementById('id2').value,
+    due:document.getElementById('idd').value,lines,tot,st:'unpaid',
+    no:document.getElementById('ino').value});
+  sd('invoices',invs);cm('imod');sal('Invoice created!');st('inv');
+}
+function mpd(id){
+  const invs=gd('invoices');const i=invs.findIndex(x=>x.id===id);
+  if(i>=0){invs[i].st='paid';sd('invoices',invs);}sal('Invoice marked paid!');
+  const at=document.querySelector('.ntab.act');
+  st(at&&at.textContent.includes('Today')?'dash':'inv');
+}
+function vinv(id){
+  const inv=gd('invoices').find(x=>x.id===id);if(!inv)return;
+  const c=gd('customers').find(x=>x.id===inv.cid)||{fn:'?',ln:''};
+  const s=gd('settings',{bus:'Mowing by Cody',ph:'479-228-6770'});
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>Invoice #${inv.id}</title>
+  <style>body{font-family:system-ui;max-width:600px;margin:40px auto;padding:20px}
+  .hd{display:flex;justify-content:space-between;margin-bottom:28px}
+  table{width:100%;border-collapse:collapse;margin:16px 0}
+  th{background:#f3f4f6;padding:9px;text-align:left}td{padding:9px;border-bottom:1px solid #e5e7eb}
+  .tot{text-align:right;font-size:17px;font-weight:bold;margin-top:14px}
+  @media print{button{display:none}}</style></head><body>
+  <div class="hd"><div><h2>${s.bus}</h2><div>${s.ph}</div></div>
+  <div><h2>INVOICE #${inv.id}</h2><div>Date: ${inv.dt}</div><div>Due: ${inv.due}</div></div></div>
+  <div><strong>Bill To:</strong><br>${c.fn} ${c.ln}</div>
+  <table><thead><tr><th>Description</th><th>Price</th></tr></thead><tbody>
+  ${inv.lines.map(l=>`<tr><td>${l.d}</td><td>$${l.p.toFixed(2)}</td></tr>`).join('')}
+  </tbody></table><div class="tot">Total: $${inv.tot.toFixed(2)}</div>
+  ${inv.no?`<div style="margin-top:20px;color:#6b7280">${inv.no}</div>`:''}
+  <button onclick="window.print()" style="margin-top:20px;padding:9px 18px;background:#16a34a;color:#fff;border:none;border-radius:6px;cursor:pointer">Print</button>
+  </body></html>`);
+}
+function delinv(id){cf2('Delete this invoice?',()=>{sd('invoices',gd('invoices').filter(i=>i.id!==id));st('inv');});}
+
+// ===== EXPENSE FUNCTIONS =====
+function sve(){
+  const am=parseFloat(document.getElementById('ea').value);
+  if(!am){alert('Enter an amount');return;}
+  const exps=gd('expenses');
+  exps.push({id:nid(exps),dt:document.getElementById('ed').value,cat:document.getElementById('ec').value,
+    am,vn:document.getElementById('ev').value,de:document.getElementById('ede').value});
+  sd('expenses',exps);cm('emod');sal('Expense saved!');st('exp');
+}
+function dele(id){cf2('Delete expense?',()=>{sd('expenses',gd('expenses').filter(e=>e.id!==id));st('exp');});}
+function umc(){const m=parseFloat(document.getElementById('mm').value)||0;document.getElementById('mcalc').textContent=m?`IRS deduction: ${m} miles × $0.70 = $${(m*0.70).toFixed(2)}`:'';};
+function svm(){
+  const mi=parseFloat(document.getElementById('mm').value);
+  if(!mi){alert('Enter miles');return;}
+  const mil=gd('mileage');
+  mil.push({id:nid(mil),dt:document.getElementById('md').value,mi,pu:document.getElementById('mp').value});
+  sd('mileage',mil);cm('mmod');sal(`${mi} miles logged — $${(mi*0.70).toFixed(2)} deduction`);st('exp');
+}
+function delm(id){cf2('Delete mileage entry?',()=>{sd('mileage',gd('mileage').filter(m=>m.id!==id));st('exp');});}
+
+// ===== EMPLOYEE FUNCTIONS =====
+function reemm(){['emfn','emln','emph','empy'].forEach(id=>document.getElementById(id).value='');}
+function svem(){
+  const fn=document.getElementById('emfn').value.trim(),ln=document.getElementById('emln').value.trim();
+  if(!fn||!ln){alert('Name required');return;}
+  const emps=gd('employees');
+  emps.push({id:nid(emps),fn,ln,ph:document.getElementById('emph').value,
+    rl:document.getElementById('emrl').value,py:parseFloat(document.getElementById('empy').value)||15,ac:true});
+  sd('employees',emps);cm('emmod');sal('Employee added!');st('emp');
+}
+function temp(id){const e=gd('employees');const i=e.findIndex(x=>x.id===id);if(i>=0){e[i].ac=!e[i].ac;sd('employees',e);}st('emp');}
+function delemp(id){cf2('Delete employee?',()=>{sd('employees',gd('employees').filter(e=>e.id!==id));st('emp');});}
+
+// ===== ESTIMATE FUNCTIONS =====
+function svest(){
+  const cid=parseInt(document.getElementById('estc').value);
+  const am=parseFloat(document.getElementById('esta').value);
+  if(!cid||!am){alert('Fill in customer and amount');return;}
+  const ests=gd('estimates');
+  ests.push({id:nid(ests),cid,sv:document.getElementById('ests').value,am,
+    vl:document.getElementById('estv').value,de:document.getElementById('estd').value,st:'pending'});
+  sd('estimates',ests);cm('estmod');sal('Estimate created!');st('est');
+}
+function acest(id){const e=gd('estimates');const i=e.findIndex(x=>x.id===id);if(i>=0){e[i].st='accepted';sd('estimates',e);}sal('Accepted!');st('est');}
+function dcest(id){const e=gd('estimates');const i=e.findIndex(x=>x.id===id);if(i>=0){e[i].st='declined';sd('estimates',e);}st('est');}
+function c2job(id){
+  const est=gd('estimates').find(e=>e.id===id);if(!est)return;
+  eid=null;rjm();document.getElementById('jc').value=est.cid;
+  document.getElementById('jsvc').value=est.sv;document.getElementById('jp').value=est.am;om('jmod');
+}
+function delest(id){cf2('Delete estimate?',()=>{sd('estimates',gd('estimates').filter(e=>e.id!==id));st('est');});}
+
+// ===== IRRIGATION FUNCTIONS =====
+function svirr(){
+  const cid=parseInt(document.getElementById('irrc').value);if(!cid){alert('Select customer');return;}
+  const props=gd('irrigation');
+  props.push({id:nid(props),cid,zn:parseInt(document.getElementById('irrz').value)||0,
+    br:document.getElementById('irrb').value,bf:document.getElementById('irrbf').value,
+    lw:document.getElementById('irrw').value,ls:document.getElementById('irrs').value,
+    wz:false,no:document.getElementById('irrn').value});
+  sd('irrigation',props);cm('irrmod');sal('Property added!');st('irr');
+}
+function twz(id){
+  const p=gd('irrigation');const i=p.findIndex(x=>x.id===id);
+  if(i>=0){p[i].wz=!p[i].wz;if(p[i].wz)p[i].lw=td();sd('irrigation',p);}st('irr');
+}
+function sijob(id){
+  const p=gd('irrigation').find(x=>x.id===id);if(!p)return;
+  rjm();document.getElementById('jc').value=p.cid;
+  document.getElementById('jsvc').value=p.wz?'Irrigation Spring Startup':'Irrigation Winterization';om('jmod');
+}
+function delirr(id){cf2('Delete irrigation property?',()=>{sd('irrigation',gd('irrigation').filter(p=>p.id!==id));st('irr');});}
+function wcamp(){
+  const props=gd('irrigation').filter(p=>!p.wz);
+  if(!props.length){sal('All properties already winterized!','y');return;}
+  const jobs=gd('jobs');
+  props.forEach(p=>{jobs.push({id:nid(jobs),cid:p.cid,sv:'Irrigation Winterization',dt:td(),pr:95,em:'Cody',st:'scheduled',no:'Winterization campaign'});});
+  sd('jobs',jobs);sal(`Created ${props.length} winterization jobs!`);st('sched');
+}
+
+// ===== SETTINGS FUNCTIONS =====
+function svset(){
+  sd('settings',{bus:document.getElementById('sb').value,ph:document.getElementById('sp').value,
+    em:document.getElementById('se').value,ad:document.getElementById('sa').value,
+    tx:parseFloat(document.getElementById('st2').value)||0,nt:gd('settings',{}).nt!==false});
+  sal('Settings saved!');
+}
+function tgnt(el){const s=gd('settings',{});s.nt=el.checked;sd('settings',s);}
+function expall(){
+  const data={customers:gd('customers'),jobs:gd('jobs'),invoices:gd('invoices'),
+    expenses:gd('expenses'),mileage:gd('mileage'),employees:gd('employees'),
+    estimates:gd('estimates'),irrigation:gd('irrigation'),settings:gd('settings',{})};
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='lawndesk-backup-'+td()+'.json';a.click();
+}
+
+// ===== REPORTS FUNCTIONS =====
+function exprep(){
+  const rows=[['Date','Customer','Service','Price','Status'],
+    ...gd('jobs').map(j=>{const c=gd('customers').find(x=>x.id===j.cid)||{fn:'?',ln:''};return[j.dt,c.fn+' '+c.ln,j.sv,j.pr,j.st];})];
+  dlCSV(rows,'lawndesk-report.csv');
+}
+function prtrep(){
+  const jobs=gd('jobs').filter(j=>j.st==='completed');
+  const tr=jobs.reduce((s,j)=>s+Number(j.pr),0);
+  const te=gd('expenses').reduce((s,e)=>s+Number(e.am),0);
+  const tm=gd('mileage').reduce((s,m)=>s+Number(m.mi),0);
+  const s=gd('settings',{bus:'Mowing by Cody'});
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>LawnDesk Report</title>
+  <style>body{font-family:system-ui;max-width:700px;margin:40px auto;padding:20px}h2{color:#16a34a}
+  table{width:100%;border-collapse:collapse;margin:14px 0}th{background:#f0fdf4;padding:8px;text-align:left}
+  td{padding:8px;border-bottom:1px solid #e5e7eb}@media print{button{display:none}}</style></head><body>
+  <h2>${s.bus} — LawnDesk Report</h2><p>${new Date().toLocaleDateString()}</p>
+  <table><tr><td>Revenue</td><td><strong>$${tr.toFixed(2)}</strong></td></tr>
+  <tr><td>Expenses</td><td>$${te.toFixed(2)}</td></tr>
+  <tr><td>Mileage Deduction</td><td>$${(tm*0.70).toFixed(2)}</td></tr>
+  <tr><td><strong>Net Profit</strong></td><td><strong>$${(tr-te-(tm*0.70)).toFixed(2)}</strong></td></tr></table>
+  <h3>Completed Jobs</h3>
+  <table><thead><tr><th>Date</th><th>Customer</th><th>Service</th><th>Amount</th></tr></thead><tbody>
+  ${jobs.map(j=>{const c=gd('customers').find(x=>x.id===j.cid)||{fn:'?',ln:''};
+    return`<tr><td>${j.dt}</td><td>${c.fn} ${c.ln}</td><td>${j.sv}</td><td>$${j.pr}</td></tr>`;}).join('')}
+  </tbody></table>
+  <button onclick="window.print()" style="padding:9px 18px;background:#16a34a;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:16px">Print</button>
+  </body></html>`);
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.moverlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+</script>
+</body>
 </html>
+ 
